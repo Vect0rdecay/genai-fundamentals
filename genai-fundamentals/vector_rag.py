@@ -9,8 +9,11 @@ from neo4j_graphrag.llm import OpenAILLM
 from neo4j_graphrag.generation import GraphRAG
 import logging, time
 
-
+# Basic logging and environment validation
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+
+# Silence Neo4j driver INFO notifications (e.g., JIT codegen messages)
+logging.getLogger("neo4j").setLevel(logging.WARNING)
 required_env_vars = ["NEO4J_URI", "NEO4J_USERNAME", "NEO4J_PASSWORD", "OPENAI_API_KEY"]
 missing_env_vars = [name for name in required_env_vars if not os.getenv(name)]
 if missing_env_vars:
@@ -66,5 +69,5 @@ response = rag.search(
 
 print("\n", response.answer)
 
-# CLose the database connection
+# Close the database connection
 driver.close()
