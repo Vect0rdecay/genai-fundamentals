@@ -58,16 +58,19 @@ llm = OpenAILLM(model_name="gpt-4o")
 rag = GraphRAG(retriever=retriever, llm=llm)
 
 # Search 
-query_text = "Find me movies about war."
+query_text = "Find me movies about war and scifi.; id"
 
 print(f"Query: {query_text}\n")
 
 response = rag.search(
     query_text=query_text, 
-    retriever_config={"top_k": 5}
+    retriever_config={"top_k": 5},
+    #return_context=True
 )
 
 print("\n", response.answer)
+
+#print("CONTEXT:", response.retriever_result.items)
 
 # Close the database connection
 driver.close()
